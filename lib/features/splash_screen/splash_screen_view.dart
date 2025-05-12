@@ -20,16 +20,18 @@ class SplashScreenView extends GetView<SplashScreenController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // App Logo
-            AnimatedOpacity(
-              opacity: controller.logoOpacity.value,
-              duration: const Duration(seconds: 1),
-              child: Container(
-                height: 150,
-                width: 150,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/to_do_list.png"),
-                    fit: BoxFit.contain,
+            Obx(
+              ()=> AnimatedOpacity(
+                opacity: controller.logoOpacity.value,
+                duration: const Duration(seconds: 1),
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/to_do_list.png"),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
@@ -38,15 +40,17 @@ class SplashScreenView extends GetView<SplashScreenController> {
             const SizedBox(height: 30),
 
             // App Name with fade-in animation
-            AnimatedOpacity(
-              opacity: controller.textOpacity.value,
-              duration: const Duration(seconds: 1),
-              child: Text(
-                'My To-Do List',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue[800],
+            Obx(
+             ()=> AnimatedOpacity(
+                opacity: controller.textOpacity.value,
+                duration: const Duration(seconds: 1),
+                child: Text(
+                  'My To-Do List',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800],
+                  ),
                 ),
               ),
             ),

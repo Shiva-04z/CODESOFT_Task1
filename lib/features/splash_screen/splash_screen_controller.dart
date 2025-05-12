@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:to_do_list/navigation/routes_constant.dart';
 
 class SplashScreenController extends GetxController
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   // Animation variables
-  var logoOpacity = 0.0.obs;
-  var textOpacity = 0.0.obs;
+  var logoOpacity = 0.02.obs;
+  var textOpacity = 0.02.obs;
   late AnimationController _animationController;
 
   @override
@@ -28,8 +28,8 @@ class SplashScreenController extends GetxController
 
   // Call this when you need to show splash again
   void resetAndStartAnimations() {
-    logoOpacity.value = 0.0;
-    textOpacity.value = 0.0;
+    logoOpacity.value = 0.02;
+    textOpacity.value = 0.02;
     _animationController.reset();
     _startAnimations();
   }
