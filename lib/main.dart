@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:to_do_list/features/home_page/home_page_bindings.dart';
+import 'package:to_do_list/features/splash_screen/splash_screen_bindings.dart';
 import 'package:to_do_list/navigation/get_pages_constant.dart';
 import 'package:to_do_list/navigation/routes_constant.dart';
 
@@ -10,11 +12,33 @@ import 'models/task.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final appDocDir = await getApplicationDocumentsDirectory();
-  Hive.init(appDocDir.path);
-  Hive.registerAdapter(TaskAdapter());
-  await Hive.openBox<Task>('tasks');
-  runApp(MyApp());
+
+  try {
+    final appDocDir = await getApplicationDocumentsDirectory();
+    await Hive.initFlutter(appDocDir.path);
+
+    if (!Hive.isAdapterRegistered(TaskAdapter().typeId)) {
+      Hive.registerAdapter(TaskAdapter());
+    }
+
+    await Hive.openBox<Task>('tasks');
+
+    runApp(const MyApp());
+  } catch (e, stack) {
+    debugPrint('Initialization error: $e\n$stack');
+
+    runApp(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text(
+            'App failed to start. Please try again.',
+            style: TextStyle(color: Colors.red, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    ));
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -44,8 +68,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 
       ),
-      initialRoute: RoutesConstant.homepage,
-      initialBinding: HomePageBindings(),
+      initialRoute: RoutesConstant.splashPage,
+      initialBinding: SplashScreenBindings(),
       getPages: getPages,
 
     );

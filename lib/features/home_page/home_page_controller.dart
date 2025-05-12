@@ -17,8 +17,8 @@ class HomePageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    print('Init');
     await Hive.initFlutter();
-    Hive.registerAdapter(TaskAdapter());
     taskBox = await Hive.openBox<Task>('tasks');
     taskList.addAll(taskBox.values.toList());
   }
