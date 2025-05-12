@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:to_do_list/features/home_page/home_page_bindings.dart';
 import 'package:to_do_list/navigation/get_pages_constant.dart';
 import 'package:to_do_list/navigation/routes_constant.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'models/task.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocDir.path);
+  Hive.registerAdapter(TaskAdapter());
+  await Hive.openBox<Task>('tasks');
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
